@@ -18,17 +18,25 @@ io.on('connection', (socket) =>
 {
   console.log('New user connected');
 
-  socket.emit('newMessage',
-  {
-    from: "mike",
-    text: "LADADA random istufs",
-    createdAt: 123
-
-  });
+  // emits to single connection
+  // socket.emit('newMessage',
+  // {
+  //   from: "mike",
+  //   text: "LADADA random istufs",
+  //   createdAt: 123
+  //
+  // });
 
   socket.on('createMessage', (message) =>
   {
     console.log('createMessage', message);
+    // emits to all connections
+    io.emit('newMessage',
+    {
+      from: message.from,
+      text: message.text,
+      createdAt: new Date().getTime()
+    });
   });
 
   socket.on('disconnect', () =>
